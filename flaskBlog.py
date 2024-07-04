@@ -35,7 +35,7 @@ flask run
 To run application directly using python
 """
 
-from flask import Flask, render_template, url_for           #-->render_template is for html files and url_for is for css files
+from flask import Flask, render_template, url_for, flash, redirect           #-->render_template is for html files, url_for is for css files, flash is for alert messages, 
 from forms import RegistrationForm, LoginForm               #-->import from forms.py
 
 
@@ -77,15 +77,24 @@ def home():
 def about():
     return render_template("about.html", title='About')
 
-# @app.route("/register")
-# def about():
-#     form = RegistrationForm()
-#     return render_template("register.html", title='Register', form=form)
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():                                        #`f` string ka istemal hota hai username ke data ko message ke saath include karne ke liye.
+        flash(f'Account Created for {form.username.data}!', 'success')   # 2nd argument is category its bootstrap class of alert 
+        return redirect(url_for('home'))          #--> home is route function
+    return render_template("register.html", title='Register', form=form)
 
-# @app.route("/login")
-# def about():
-#     form = LoginForm()
-#     return render_template("login.html", title='Login', form=form)
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
+    return render_template("login.html", title='Login', form=form)
 
 
 

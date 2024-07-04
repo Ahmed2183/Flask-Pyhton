@@ -1,4 +1,10 @@
 #For flask_wtf: pip install flask flask-wtf
+"""
+For Email Validation: pip install email-validator
+email-validator module support in Flask-WTF and WTForms.
+"""
+
+
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
@@ -14,6 +20,8 @@ class RegistrationForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
+    remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
 
+ 
