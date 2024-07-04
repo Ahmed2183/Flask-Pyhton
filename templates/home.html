@@ -1,0 +1,15 @@
+{% extends "layout.html" %}  <!-- import layout.html file -->
+{% block content %}   <!-- content Block Start Here -->
+    {% for post in posts %}   <!-- Using for loop: for Block Start Here -->
+    <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="#" style="text-decoration: none;">{{ post.author }}</a>
+            <small class="text-muted">{{ post.date_Posted }}</small>
+          </div>
+          <h2><a class="article-title" href="#" style="text-decoration: none;">{{ post.title }}</a></h2>
+          <p class="article-content">{{ post.content }}</p>
+        </div>
+      </article>
+    {% endfor %}   <!-- for Block End Here -->
+{% endblock content %}   <!-- content Block End Here -->
