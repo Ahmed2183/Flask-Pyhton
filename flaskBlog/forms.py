@@ -1,11 +1,3 @@
-#For flask_wtf: pip install flask flask-wtf
-"""
-For Email Validation: pip install email-validator
-email-validator module support in Flask-WTF and WTForms.
-"""
-
-
-
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
@@ -22,6 +14,25 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+
+
+""" Description """
+
+#For flask_wtf: pip install flask flask-wtf
+
+"""
+For Email Validation: pip install email-validator
+email-validator module support in Flask-WTF and WTForms.
+"""
+
+"""
+After Installing New Packages Every Time You Need To: 
+Update requirements.txt: pip freeze > requirements.txt
+"""
+
+
+
 
 
  
