@@ -7,6 +7,10 @@ if __name__ == '__main__':
 
 """ Description """
 
+#Create a Virtual Environment: python -m venv .venv
+
+#2. If Virtual Environment Already Created: First Activate the Virtual Environment: .\.venv\Scripts\activate
+
 # To run application directly using python: python run.py
 
 # debug=True means run app in Debug Mode
