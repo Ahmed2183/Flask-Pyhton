@@ -40,6 +40,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarToggle">
+          <!-- In url_for these home, about, new_post, account, logout, login, register are functions of her routes  -->
           <div class="navbar-nav mr-auto">
             <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
             <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
@@ -47,6 +48,7 @@
           <!-- Navbar Right Side -->
           <div class="navbar-nav ms-auto">
             {% if current_user.is_authenticated %} <!-- If User Login -->
+            <a class="nav-item nav-link" href="{{ url_for('new_post') }}">New Post</a>
             <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
             <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
             {% else %}
