@@ -12,7 +12,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")                                
 @app.route("/home")
 def home():
-    posts = Post.query.all()
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)   #-->paginate is for pagination
     return render_template("home.html", posts=posts)
  
 @app.route("/about")
@@ -137,6 +138,14 @@ def delete_post(post_id):
     db.session.commit()
     flash('Your Post Has Been Deleted!', 'success')
     return redirect(url_for('home'))
+
+
+@app.route("/user/<string:username>")
+def user_posts(username):
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)   #-->paginate is for pagination
+    return render_template("user_posts.html", posts=posts, user=user)
         
 
 
@@ -192,4 +201,17 @@ This means give me the post with this id if it doesn't exist then return a 404
 #abort(403)
 """
 If post author not equal to current login user then not access the update route
+"""
+
+#page = request.args.get('page', 1, type=int)
+"""
+request.args.get('page', 1, type=int) ka matlab hai ke URL mein agar page parameter diya gaya hai, to uski value le lo. Agar page parameter nahi diya gaya, to default value 1 set kar lo,
+type=int means page value should be integer
+"""
+
+#posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
+"""
+Post.date_posted.desc(): new post will be shown on top
+per_page=1 means eik page pr eik post hogi
+
 """

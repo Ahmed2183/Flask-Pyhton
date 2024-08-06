@@ -1,12 +1,14 @@
 {% extends "layout.html" %} <!-- import layout.html file -->
 {% block content %} <!-- content Block Start Here -->
-{% for post in posts %} <!-- Using for loop: for Block Start Here -->
+<!-- Using for loop: for Block Start Here. Where Posts is pagination object that why we use posts.items  -->
+{% for post in posts.items %}
 <article class="media content-section">
   <img class="rounded-circle article-img"
     src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
   <div class="media-body">
     <div class="article-metadata">
-      <a class="mr-2" href="#" style="text-decoration: none;">{{ post.author.username }}</a>
+      <a class="mr-2" href="{{ url_for('user_posts', username=post.author.username) }}"
+        style="text-decoration: none;">{{ post.author.username }}</a>
       <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
     </div>
     <!--  post is function in post/id route  -->
@@ -16,4 +18,16 @@
   </div>
 </article>
 {% endfor %} <!-- for Block End Here -->
+{% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+<!-- left_edge=1 and right_edge=1 means 1st or last pagination link hmesha dikha ga, left_current=1 and right_current=2 means current active page ka left pr 1 page or right pr 2 pages dikha ga -->
+{% if page_num %}
+{% if posts.page == page_num %}
+<a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+{% else %}
+<a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+{% endif %}
+{% else %}
+...
+{% endif %}
+{% endfor %}
 {% endblock content %} <!-- content Block End Here -->
