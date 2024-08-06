@@ -1,32 +1,18 @@
 import os
 import secrets
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, abort
 from flaskBlog import app, db, bcrypt                             
-from flaskBlog.forms import RegistrationForm, LoginForm, UpdateAccountForm                                
+from flaskBlog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm                                
 from flaskBlog.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required              
 
-
-posts = [
-    {
-        'author': 'Blogger1',
-        'title': 'Blog Post 1',
-        'content': 'First Post Content',
-        'date_Posted': 'July 2, 2024'
-    },
-    {
-        'author': 'Blogger2',
-        'title': 'Blog Post 2',
-        'content': 'Second Post Content',
-        'date_Posted': 'July 3, 2024' 
-    }
-]
-
+ 
 #Those two routes are being handled by same home function:
 @app.route("/")                                
 @app.route("/home")
 def home():
+    posts = Post.query.all()
     return render_template("home.html", posts=posts)
  
 @app.route("/about")
@@ -94,7 +80,7 @@ def account():
        current_user.username = form.username.data
        current_user.email = form.email.data
        db.session.commit()
-       flash('Your Account has been updated!', 'success')
+       flash('Your Account Has Been Updated!', 'success')
        return redirect(url_for('account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
@@ -103,7 +89,55 @@ def account():
     return render_template("account.html", title='Account', image_file=image_file, form=form)
 
 
+@app.route("/post/new", methods=['GET', 'POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+       post = Post(title=form.title.data, content=form.content.data, author=current_user)
+       db.session.add(post)
+       db.session.commit()   
+       flash('Your Post Has Been Created!', 'success')
+       return redirect(url_for('home'))
+    return render_template("create_post.html", title='New Post', form=form, legend='New Post')
 
+
+@app.route("/post/<int:post_id>")
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', title=post.title, post=post)
+
+
+@app.route("/post/<int:post_id>/update",  methods=['GET', 'POST'])
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    form = PostForm()    
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash('Your Post Has Been Updated!', 'success')
+        return redirect(url_for('post', post_id=post.id)) 
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+    return render_template("create_post.html", title='Update Post', form=form, legend='Update Post')
+
+
+@app.route("/post/<int:post_id>/delete",  methods=['POST'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your Post Has Been Deleted!', 'success')
+    return redirect(url_for('home'))
+        
 
 
 """ Description """
@@ -133,6 +167,8 @@ URL Looks Like: /login?next=%2Faccount       --> means after login take user ont
 
 #secrets: For creating random hex keys
 
+#current_user: In current_user we get that user info which is login
+
 #_, f_ext = os.path.splitext(form_picture.filename)
 """
 Underscore (_) ko use kiya jata hai jab aap kisi variable ko assign karte hain lekin aap us variable ka aage use nahi karna chahte.
@@ -146,4 +182,14 @@ f_ext menas file extension of uploaded picture
 #picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
 """
 Yeh line full path banati hai jahan picture ko save kiya jayega.
+"""
+
+#Post.query.get_or_404(post_id)
+"""
+This means give me the post with this id if it doesn't exist then return a 404
+"""
+
+#abort(403)
+"""
+If post author not equal to current login user then not access the update route
 """
