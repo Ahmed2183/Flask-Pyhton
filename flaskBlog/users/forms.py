@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flaskBlog.models import User
 
@@ -50,12 +50,6 @@ class UpdateAccountForm(FlaskForm):
                 raise ValidationError('That email is taken. Please choose a different one.')
 
 
-class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Post')
-
-
 class RequestResetForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Request Password Reset')
@@ -72,7 +66,7 @@ class ResetPasswordForm(FlaskForm):
     submit = SubmitField('Request Password')
 
 
-""" Description """
+""" Descriptions """
 
 # For flask_wtf: pip install flask flask-wtf
 
@@ -85,3 +79,5 @@ email-validator module support in Flask-WTF and WTForms.
 After Installing New Packages Every Time You Need To: 
 Update requirements.txt: pip freeze > requirements.txt
 """
+
+# current_user: In current_user we get that user info which is login

@@ -1,12 +1,11 @@
 from datetime import datetime
 from itsdangerous import URLSafeTimedSerializer as Serializer
-from flaskBlog import db, login_manager, app
+from flask import current_app
+from flaskBlog import db, login_manager
 from flask_login import UserMixin
 
-""" Get User From User ID """
 
-
-@login_manager.user_loader
+@login_manager.user_loader  # --> Get User From User ID
 def load_user(user_id):
     return User.query.get(int(user_id))
 
@@ -28,14 +27,15 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='author', lazy=True)
 
     def get_reset_token(self):
-        s = Serializer(app.config['SECRET_KEY'])
-        return s.dumps({'user_id': self.id}, salt='reset-password')
+        s = Serializer(current_app.config['SECRET_KEY'])
+        return s.dumps({'user_id': self.id}, salt='reset-password')  # -->Convert User Id into Encoded Token
 
     @staticmethod
     def verify_reset_token(token, expires_sec=1800):
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(current_app.config['SECRET_KEY'])
         try:
-            user_id = s.loads(token, salt='reset-password', max_age=expires_sec)['user_id']
+            user_id = s.loads(token, salt='reset-password', max_age=expires_sec)[
+                'user_id']  # -->Get User Id From The Encoded Token
         except:
             return None
         return User.query.get(user_id)
@@ -103,6 +103,8 @@ Purpose: Yeh function ek token generate karta hai jo password reset ke liye use 
 URLSafeTimedSerializer class ko Serializer ke naam se use kia ha, jo eik secure, URL-safe token generate karta hai jo specific time ke baad expire ho jata hai.
 
 s.dumps({'user_id': self.id}): This creates a token by encoding the user ID (self.id) into a string.
+Means Yeh line user ka user_id le kar usay ek token mein convert karti hai jo ke encode hota hai aur securely store kiya ja sakta hai.
+
 .decode('utf-8'): Converts the token from bytes to a string format
 """
 
@@ -110,10 +112,11 @@ s.dumps({'user_id': self.id}): This creates a token by encoding the user ID (sel
 """
 Purpose: Check if the token is valid and extract the user information.
 
-s = Serializer(app.config['SECRET_KEY']): Same secret key used for token verification.
+s = Serializer(current_app.config['SECRET_KEY']): Same secret key used for token verification.
 
 user_id = s.loads(token, salt='reset-password', max_age=expires_sec)['user_id']:
 Decodes the token and extracts the data, and retrieves the user ID from the decoded data.
+Means Yeh line token ko decode kar ke us mein se user_id extract karti hai.
 
 expires_sec=1800 means token expires in 1800 seconds (default 30 minutes).
 salt ek extra security layer hai jo token ya password ko unique aur secure banata hai.

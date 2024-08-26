@@ -44,15 +44,15 @@
             <div class="form-group mb-3">
                 {{ form.submit(class="btn btn-outline-info") }}
                 <small class="text-muted ml-2">
-                    <a href="{{ url_for('reset_request') }}" style="text-decoration: none;">Forgot Password?</a>
+                    <a href="{{ url_for('users.reset_request') }}" style="text-decoration: none;">Forgot Password?</a>
                 </small>
             </div>
         </form>
     </div>
     <div class="border-top pt-3">
         <small class="text-muted">Need An Account? <a class="ml-2" style="text-decoration: none;"
-                                                      href="{{ url_for('register') }}">Sign Up Now</a>
-            <!-- url_for('register') means link/redirect to the register page. The value that we're passing into the url_for function is not the name of the route its the name of the route function -->
+                                                      href="{{ url_for('users.register') }}">Sign Up Now</a>
+            <!-- url_for('users.register') means link/redirect to the register page. The value that we're passing into the url_for function is not the name of the route its the name of the route function -->
         </small>
     </div>
 {% endblock content %}

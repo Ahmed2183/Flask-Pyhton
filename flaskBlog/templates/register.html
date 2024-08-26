@@ -1,79 +1,79 @@
 {% extends "layout.html" %}
 <!-- import layout.html file -->
 {% block content %}
-<!-- content Block Start Here -->
-<div class="content-section">
-  <form method="POST" action="">
-    <!-- action means that when we post this form its just going to go back to the same route its going to post that information to the same route that were currently on -->
-    {{ form.hidden_tag() }}
-    <!-- form.hidden_tag() Ye tag CSRF (Cross-Site Request Forgery) attacks se bachane ke liye istemal hota hai. Is tag ka use karte hue, form submissions ko authenticate kiya jata hai Flask-WTF ke through, 
-     jisse website secure rehta hai. -->
-    <fieldset class="form-group">
-      <legend class="border-bottom mb-4">Join Today</legend>
-      <div class="form-group mb-3">
-        <!-- These all are variables names that we specified in forms.py class -->
-        {{ form.username.label(class="form-control-label") }}
-        {% if form.username.errors %}
-        {{ form.username(class="form-control form-control-lg is-invalid") }}
-        <div class="invalid-feedback">
-          {% for error in form.username.errors %}
-          <span>{{ error }}</span>
-          {% endfor %}
-        </div>
-        {% else %}
-        {{ form.username(class="form-control form-control-lg") }}
-        {% endif %}
-      </div>
-      <div class="form-group mb-3">
-        {{ form.email.label(class="form-control-label") }}
-        {% if form.email.errors %}
-        {{ form.email(class="form-control form-control-lg is-invalid") }}
-        <div class="invalid-feedback">
-          {% for error in form.email.errors %}
-          <span>{{ error }}</span>
-          {% endfor %}
-        </div>
-        {% else %}
-        {{ form.email(class="form-control form-control-lg") }}
-        {% endif %}
-      </div>
-      <div class="form-group mb-3">
-        {{ form.password.label(class="form-control-label") }}
-        {% if form.password.errors %}
-        {{ form.password(class="form-control form-control-lg is-invalid") }}
-        <div class="invalid-feedback">
-          {% for error in form.password.errors %}
-          <span>{{ error }}</span>
-          {% endfor %}
-        </div>
-        {% else %}
-        {{ form.password(class="form-control form-control-lg") }}
-        {% endif %}
-      </div>
-      <div class="form-group mb-3">
-        {{ form.confirmPassword.label(class="form-control-label") }}
-        {% if form.confirmPassword.errors %}
-        {{ form.confirmPassword(class="form-control form-control-lg is-invalid") }}
-        <div class="invalid-feedback">
-          {% for error in form.confirmPassword.errors %}
-          <span>{{ error }}</span>
-          {% endfor %}
-        </div>
-        {% else %}
-        {{ form.confirmPassword(class="form-control form-control-lg") }}
-        {% endif %}
-      </div>
-    </fieldset>
-    <div class="form-group mb-3">
-      {{ form.submit(class="btn btn-outline-info") }}
+    <!-- content Block Start Here -->
+    <div class="content-section">
+        <form method="POST" action="">
+            <!-- action means that when we post this form its just going to go back to the same route its going to post that information to the same route that were currently on -->
+            {{ form.hidden_tag() }}
+            <!-- form.hidden_tag() Ye tag CSRF (Cross-Site Request Forgery) attacks se bachane ke liye istemal hota hai. Is tag ka use karte hue, form submissions ko authenticate kiya jata hai Flask-WTF ke through,
+             jisse website secure rehta hai. -->
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Join Today</legend>
+                <div class="form-group mb-3">
+                    <!-- These all are variables names that we specified in forms files class -->
+                    {{ form.username.label(class="form-control-label") }}
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group mb-3">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group mb-3">
+                    {{ form.password.label(class="form-control-label") }}
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group mb-3">
+                    {{ form.confirmPassword.label(class="form-control-label") }}
+                    {% if form.confirmPassword.errors %}
+                        {{ form.confirmPassword(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.confirmPassword.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.confirmPassword(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group mb-3">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
     </div>
-  </form>
-</div>
-<div class="border-top pt-3">
-  <small class="text-muted">Already Have An Account? <a class="ml-2" style="text-decoration: none;"
-      href="{{ url_for('login') }}">Sign In</a>
-    <!-- url_for('login') means link/redirect to the login page. The value that we're passing into the url_for function is not the name of the route its the name of the route function -->
-  </small>
-</div>
+    <div class="border-top pt-3">
+        <small class="text-muted">Already Have An Account? <a class="ml-2" style="text-decoration: none;"
+                                                              href="{{ url_for('users.login') }}">Sign In</a>
+            <!-- url_for('users.login') means link/redirect to the login page. The value that we're passing into the url_for function is not the name of the route its the name of the route function -->
+        </small>
+    </div>
 {% endblock content %}
 <!-- content Block End Here -->
