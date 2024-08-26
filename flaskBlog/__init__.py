@@ -28,11 +28,13 @@ def create_app(config_class=Config):
     from flaskBlog.users.routes import users
     from flaskBlog.posts.routes import posts
     from flaskBlog.main.routes import main
+    from flaskBlog.errors.handlers import errors
 
-    # Manage All BluePrints
+    # Register/Manage All BluePrints
     app.register_blueprint(users)
     app.register_blueprint(posts)
     app.register_blueprint(main)
+    app.register_blueprint(errors)
 
     return app
 
@@ -80,4 +82,15 @@ users is the name of variable in our users route that is the instance of our blu
 """
 Basically we're going to initialize the extensions at the top of our file but without the app variable
 create_app function Flask application ko setup karne aur configure karne ka ek organized method hai, jisse aap easily different settings aur components ko manage kar sakte hain.
+"""
+
+# Empty __init__.py files in folder Why?
+"""
+In Python, a package is a directory that contains an __init__.py file. This file tells Python that the directory should be treated as a package, 
+which can contain modules and sub-packages.
+
+If the directory does not contain an __init__.py file, Python will not recognize it as a package. 
+You cannot directly import modules from this directory.
+
+Note: Modules in Python are files containing Python code that define functions, classes, and variables.
 """
