@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class Config:
@@ -18,9 +21,17 @@ class Config:
 Yeh line aapko current file ke directory ka absolute path deti hai. 
 """
 
+# load_dotenv() :Load environment variables from .env file
+
 # SECRET_KEY and SQLALCHEMY_DATABASE_URI i set in System Environment Variable and get from there
 
 # MAIL_USERNAME and MAIL_PASSWORD get from .env file
+
+# .env & System Environment Variable
+"""
+Use .env for local, non-sensitive configurations and system environment variables for sensitive or production settings 
+to keep environments secure and flexible.
+"""
 
 # SECRET_KEY:
 """ 
@@ -35,7 +46,7 @@ $ python
 # DataBase Connection
 """
 'SQLALCHEMY_DATABASE_URI' setting ke zariye aap SQLAlchemy ko batate hain ke kaunsa database use karna hai.
-'sqlite:///{basedir}/site.db' ka matlab hai ke aap SQLite database use kar rahe hain aur uska file name site.db hai.
+'sqlite:///{basedir}/site33.db' ka matlab hai ke aap SQLite database use kar rahe hain aur uska file name site33.db hai.
 """
 
 # Mail
