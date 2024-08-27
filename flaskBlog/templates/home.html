@@ -1,33 +1,58 @@
-{% extends "layout.html" %} <!-- import layout.html file -->
-{% block content %} <!-- content Block Start Here -->
-    <!-- Using for loop: for Block Start Here. Where Posts is pagination object that why we use posts.items  -->
-    {% for post in posts.items %}
-        <article class="media content-section">
-            <img class="rounded-circle article-img"
-                 src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}"
-                       style="text-decoration: none;">{{ post.author.username }}</a>
-                    <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="row">
+        <!-- Using for loop: for Block Start Here. Where Posts is pagination object that why we use posts.items  -->
+        {% for post in posts.items %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img class="card-img-top"
+                         src="{{ url_for('static', filename='post_profile_pics/' + post.image_file) }}"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <img class="rounded-circle article-img"
+                                 src="{{ url_for('static', filename='user_profile_pics/' + post.author.image_file) }}">
+                            <div class="ml-3">
+                                <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}"
+                                   style="text-decoration: none;">{{ post.author.username }}</a>
+                                <small class="text-muted d-block">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                            </div>
+                        </div>
+                        <h5 class="card-title mt-3">
+                            <!--  post is function in post/id route  -->
+                            <a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}"
+                               style="text-decoration: none;">{{ post.title }}</a>
+                        </h5>
+                        <p class="card-text">{{ post.content }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="{{ url_for('posts.post', post_id=post.id) }}"
+                                   class="btn btn-sm btn-outline-secondary">View</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!--  post is function in post/id route  -->
-                <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}"
-                       style="text-decoration: none;">{{ post.title }}</a></h2>
-                <p class="article-content">{{ post.content }}</p>
             </div>
-        </article>
-    {% endfor %} <!-- for Block End Here -->
-    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-        <!-- left_edge=1 and right_edge=1 means 1st or last pagination link hmesha dikha ga, left_current=1 and right_current=2 means current active page ka left pr 1 page or right pr 2 pages dikha ga -->
-        {% if page_num %}
-            {% if posts.page == page_num %}
-                <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
-            {% else %}
-                <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
-            {% endif %}
-        {% else %}
-            ...
-        {% endif %}
-    {% endfor %}
-{% endblock content %} <!-- content Block End Here -->
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                <!-- left_edge=1 and right_edge=1 means 1st or last pagination link hmesha dikha ga, left_current=1 and right_current=2 means current active page ka left pr 1 page or right pr 2 pages dikha ga -->
+                {% if page_num %}
+                    {% if posts.page == page_num %}
+                        <a class="btn btn-info mb-4"
+                           href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                        <a class="btn btn-outline-info mb-4"
+                           href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
