@@ -4,6 +4,7 @@ from flaskBlog.models import Post
 from flask_login import current_user, login_required
 
 from flaskBlog.posts.forms import PostForm
+from flaskBlog.posts.utils import save_picture
 
 posts = Blueprint('posts', __name__)
 
@@ -12,13 +13,17 @@ posts = Blueprint('posts', __name__)
 @login_required
 def new_post():
     form = PostForm()
+    picture_file = 'default.jpg'
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+        post = Post(title=form.title.data, content=form.content.data, image_file=picture_file, author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your Post Has Been Created!', 'success')
         return redirect(url_for('main.home'))
-    return render_template("create_post.html", title='New Post', form=form, legend='New Post')
+    image_file = url_for('static', filename='post_profile_pics/' + current_user.image_file)
+    return render_template("create_post.html", title='New Post', image_file=image_file, form=form, legend='New Post')
 
 
 @posts.route("/post/<int:post_id>")
