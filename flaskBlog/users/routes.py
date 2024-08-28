@@ -4,7 +4,8 @@ from flaskBlog.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 
 from flaskBlog.users.forms import LoginForm, RegistrationForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
-from flaskBlog.users.utils import save_picture, send_reset_email
+from flaskBlog.users.utils import send_reset_email
+from flaskBlog.common.common import save_picture
 
 users = Blueprint('users', __name__)
 
@@ -55,7 +56,7 @@ def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.picture.data:
-            picture_file = save_picture(form.picture.data)
+            picture_file = save_picture(form.picture.data, "user_profile_pics")
             current_user.image_file = picture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
