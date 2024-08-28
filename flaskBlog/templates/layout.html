@@ -105,6 +105,18 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
 
+<!-- Common Function For Images -->
+<script>
+    function previewImage(event, previewId) {
+        let reader = new FileReader();
+        reader.onload = function () {
+            let output = document.getElementById(previewId);
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+
 </body>
 
 </html>
