@@ -2,3 +2,5 @@
 /__pycache__/
 /.env
 .idea/
+/Before Running Python Project.txt
+/SQLALCHEMY COMMANDS IN CMD.txt
