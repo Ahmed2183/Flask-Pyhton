@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .  # Directory containing the Dockerfile and other necessary files
+      dockerfile: Dockerfile  # Optional if the file is named Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./flaskBlog/site.db:/app/flaskBlog/site.db
+    environment:
+      - SQLALCHEMY_DATABASE_URI=sqlite:////app/flaskBlog/site.db
