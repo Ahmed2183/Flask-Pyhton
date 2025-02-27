@@ -1,0 +1,60 @@
+Command Prompt Commands:
+
+For Creating Virtual Environment Easily: pip install virtualenv
+If already installed then no need to install again virtualenv
+
+To see globally all packages: pip list
+
+It's generally a good practice to create a new virtual environment for each new project.
+
+First of all create a new directory for Environments all Environments we create here i create in:
+C:\Users\Admin\Enviroments 
+
+Open the command prompt and go on path: C:\Users\Admin\Enviroments
+
+Now Create a new virtual environment:
+
+1. First Time When New Project Is Created:
+   Create a new virtual environment for project: virtualenv yourenv_name
+
+   Create a Virtual Environment with a Specific Python Version:
+   virtualenv yourenv_name -p C:\Path\To\Python\python.exe
+
+
+2. If Virtual Environment Created: 
+   Activate The Virtual Environment For Your Project In PyCharm: File > Settings > Project: Your ProjectName > 
+   Python Interpreter > Add Interpreter >  Add Local Interpreter > Click on Three Dots > 
+   Go on path(where virtual environment created) > Select python.exe > ok
+
+3. Deactivate a virtual environment: deactivate
+
+5. Delete Virtual Environment: rmdir /s /q yourenv_name  Or  Simply Delete That Directory/Folder
+ 
+6. Generate requirements.txt:
+ 
+   Locally Generate: pip freeze --local > requirements.txt
+
+   If Virtual Environment is activated and you type pip freeze > requirements.txt then it also generate locally
+
+   Without Activated Virtual Environment You Generate Globally : pip freeze > requirements.txt
+
+7. After Installing New Packages Every Time You Need To Update requirements.txt: 
+
+   If you want to add new packages locally means only in your project requirements.txt: pip freeze --local > requirements.txt  or pip freeze > requirements.txt
+
+   Without Activated Virtual Environment:
+   If you want to add new packages globally then:  pip freeze > requirements.txt
+     
+8. Check Installed Packages: pip list
+
+9. Add requirements.txt In Git Repository
+   After Clone Project Install All Dependencies From requirements.txt:
+   pip install -r requirements.txt
+
+10.Run Project:
+   python run.py
+
+11. Delete All Packages:
+    pip uninstall -r requirements.txt -y
+
+    For Globally first deactivate the virtual environment

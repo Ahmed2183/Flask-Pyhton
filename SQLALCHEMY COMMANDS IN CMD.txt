@@ -1,0 +1,90 @@
+Command Prompt Commands:
+
+Activate The Virtual Environment For Your Project In PyCharm: File > Settings > Project: Your ProjectName > 
+Python Interpreter > Add Interpreter >  Add Local Interpreter > Click on Three Dots > 
+Go on path(where virtual environment created) > Select python.exe > ok
+
+
+D:\Python\Flask Python>flask --app flaskBlog shell
+
+Import Database:
+>>>from flaskBlog import db               -->flaskBlog is our application file and db is the instance of our database
+
+Create Database If Not Created:
+>>>db.create_all()
+
+Import Database Models:-
+
+If you have separate models.py file:
+from flaskBlog.models import User, Post 
+
+Otherwise:
+from flaskBlog import User, Post            -->User and Post are Models
+
+
+Add Data In User Model/Table:
+>>>user_1 = User(username='Abc', email='abc@demo.com', password='password')
+>>>user_1.username
+>>>db.session.add(user_1)         -->session represents a set of operations (like inserts, updates, deletes) that you want to perform)
+>>>db.session.commit()            -->Before committing changes are temporary, After committing changes are permanent in Database
+>>>User.query.all()               -->Get all the records from the User table
+>>>User.query.first()             -->Get 1st Data
+>>>User.query.filter_by(username='Xyz').all()       -->Get Specific User
+>>>User.query.filter_by(username='Xyz').first()     -->Get first Xyz user
+>>>user = User.query.filter_by(username='Abc').first()      -->Add any user in variable
+>>>user.id               //output 1
+>>>user = User.query.get(1)          -->Get User by her id
+
+
+Add Data in Post Model/Table:
+>>> post_1 = Post(title='Blog 1', content='First Post Content', user_id=user.id)
+>>> post_2 = Post(title='Blog 2', content='Second Post Content', user_id=user.id)
+>>> db.session.add(post_1)
+>>> db.session.add(post_2)
+>>> db.session.commit()
+>>> user.posts
+[<Post 1>, <Post 2>]
+>>> for post in user.posts:
+...    print(post.title)
+...
+//Output: Blog 1 Blog 2
+>>> post = Post.query.first()
+>>> post      //output: <Post 1>
+>>> post.user_id      //output: 2
+>>> post.author        //output: <User 2>
+
+
+Drop all of our Database:
+db.drop_all()           -->Clear/Delete All Database
+
+
+Delete All Users:
+User.query.delete()
+db.session.commit()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
